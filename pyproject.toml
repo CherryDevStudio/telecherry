@@ -7,18 +7,69 @@ authors = [
 ]
 license = {text = "MIT License"}
 readme = "README.md"
-requires-python = ">=3.10.6"
+requires-python = ">=3.11"
 dependencies = [
-    "pydantic (>=2.11.5,<3.0.0)"
+    "jsonschema>=4.25.0",
+    "pysocks>=1.7.1",
 ]
-
-
-[build-system]
-requires = ["poetry-core>=2.0.0,<3.0.0"]
-build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
 line-length = 79
+indent-width = 4
+target-version = "py311"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+docstring-code-line-length = "dynamic"
 
 [tool.ruff.lint]
-extend-select = ["E501"]
+select = ["ALL"]
+ignore = [
+    "D100", # undocumented-public-module
+    "D104", # undocumented-public-package
+    "D105", # undocumented-magic-method
+    "D106", # undocumented-public-nested-class
+    "D107", # undocumented-public-init
+    "D203", # one-blank-line-before-class
+    "D212", # multi-line-summary-first-line
+    "D403", # first-word-uncapitalized
+]
+unfixable = [
+    "RUF100", # unused noqa
+    "T20",  # removes print statements
+    "F841", # removes unused variables
+]
+preview = true
+
+[tool.ruff.lint.flake8-builtins]
+strict-checking = true
+
+[tool.ruff.lint.flake8-type-checking]
+exempt-modules = ["typing", "typing_extensions"]
+quote-annotations = true
+strict = true
+
+[tool.ruff.lint.isort]
+force-sort-within-sections = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.uv]
+link-mode="copy"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "pyright >= 1.1.403",
+    "ruff >= 0.12.3",
+]
+
+[tool.hatch.build]
+include = [
+    "/README.md"
+]
